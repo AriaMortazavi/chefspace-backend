@@ -7,11 +7,12 @@ let posting = [
     postDislike: 1,
   },
 ]
-let user = [
+let users = [
   {
     id: 1,
     username: "AriaMor",
     email: "ariamor7@gmail.com",
+    password: "",
     skill: "Beginner",
     userImg: "url(https://thumbor.thedailymeal.com/O4ofgyXw4SHr5PeljGXaIoRVvOw=/870x565/https://www.thedailymeal.com/sites/default/files/slides/2-michael%20mina-Yelp.jpg)",
   },
@@ -28,3 +29,14 @@ function createPost(recipe) {
   return recipe
 }
 exports.createPost = createPost
+
+
+
+
+function allUsers() {
+  return users
+}
+exports.allUsers = allUsers
+
+
+
