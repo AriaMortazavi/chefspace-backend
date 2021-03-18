@@ -32,33 +32,33 @@ app.use('/', function (req, res, next) {
   next();
 });
 
-app.get('/api/allposts', (req, res) => {
-  const posting = database.allPosts()
-  res.send(
-    posting
-  )
-})
+// app.get('/api/allposts', (req, res) => {
+//   const posting = database.allPosts()
+//   res.send(
+//     posting
+//   )
+// })
 
-const port = process.env.PORT || 8080
-app.listen(port, () => {
-  console.log(`listening on port ${port}`)
-})
+// const port = process.env.PORT || 8080
+// app.listen(port, () => {
+//   console.log(`listening on port ${port}`)
+// })
 
-app.post('/api/createposts', (req, res) => {
-  const recipe = req.body
+// app.post('/api/createposts', (req, res) => {
+//   const recipe = req.body
 
-  database.createPost(recipe, (error, recipeID) => {
+//   database.createPost(recipe, (error, recipeID) => {
 
-    if (error) {
-      res.send({ error })
-      return
-    }
+//     if (error) {
+//       res.send({ error })
+//       return
+//     }
 
-    recipe.id = recipeID
+//     recipe.id = recipeID
 
-    res.send({ recipe })
-  })
-})
+//     res.send({ recipe })
+//   })
+// })
 
 
 
