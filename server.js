@@ -88,25 +88,45 @@ app.post('/createusers', async (req, res) => {
 //login
 app.post('/createusers/login', async (req, res) => {
   const users = database.allUsers()
-  const createusers = users.find(newUser => newUser.email = req.body.email)
-  if (user == null){
-    return res.status(400).send('Cannot find user')
-  }
-  try{
-     //bcrypt compares password to hashed password
-   if(await bcrypt.compare(req.body.password, newUser.password)){
-    res.send('Sucess')
-
-    // const accessToken = jwt.sign(newUser, process.env.ACCESS_TOKEN_SECRET)
-    // res.json({ accessToken: accessToken})
-
-   } else {
-     res.send ('Not allowed')
-   }
-  } catch {
-    res.status(500).send()
-  }
+  users.find({email = req.body.email})
+  .exec()
+  .then(user => {
+    if (user.length < 1){
+      return res.status(401).json({
+       message: "auth failed"
+      });
+    }
+      //bcrypt compares password to hashed password
+    bcrypt.compare(req.body.password, user[0].password, (err, result))
+    if (err){
+      return res.status(401).json({
+        message: "auth failed"
+       });
+    }
+    if (result) { 
+      const token = jwt.sign({
+        email: user[0].email
+      }, pricess.env.ACCESS_TOKEN_SECRET, 
+        {
+          expiresIn: "1h"
+        }
+      );
+      return res.status(200).json({
+        message: "auth successful",
+        token: token
+      })
+    }
+    res.status(401).json({
+      message: "auth failed"
+     });
+  });
 })
+  .catch(err =>{
+    console.log(err);
+    res.status(500).json({
+      error = err
+    });
+  });
 
 
 
