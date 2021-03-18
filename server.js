@@ -73,7 +73,7 @@ app.get('/users', (req, res) => {
 })
 
 //Creating new user
-app.post('https://chefspace-backend.herokuapp.com/api/createusers', async (req, res) => {
+app.post('https://chefspace-backend.herokuapp.com/createusers', async (req, res) => {
   const users = database.allUsers()
   try{
   const hashedPassword = await bcrypt.hash(req.body.password, 10) //the 10 is to salt the hash to increase security
