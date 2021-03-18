@@ -8,6 +8,15 @@ const app = express()
 
 const jwt = require('jsonwebtoken')
 
+// var mysql = require('mysql');
+
+// var connect = mysql.createConnection({
+//   host='',
+//   user='',
+//   password='',
+//   database='',
+// })
+
 app.use(express.json())
 
 const bcrypt = require('bcrypt')
@@ -73,7 +82,7 @@ app.get('/users', (req, res) => {
 })
 
 //Creating new user
-app.post('https://chefspace-backend.herokuapp.com/createusers', async (req, res) => {
+app.post('/api/createusers', async (req, res) => {
   const users = database.allUsers()
   try{
   const hashedPassword = await bcrypt.hash(req.body.password, 10) //the 10 is to salt the hash to increase security
@@ -84,10 +93,10 @@ app.post('https://chefspace-backend.herokuapp.com/createusers', async (req, res)
   }catch{
     res.status(500).send()
   }
-}) 
+})
 
 //login
-app.post('https://chefspace-backend.herokuapp.com/login', async (req, res) => {
+app.post('/login', async (req, res) => {
   const users = database.allUsers()
   console.log(users)
   const user = users.find(newUser => newUser.email === req.body.email)
@@ -130,3 +139,13 @@ function authenticateToken (req, res, next){
   })
 }
 
+
+
+// server info
+// mysql://
+// bb491c74803cee
+// :
+// 261b5a80
+// @
+// us-cdbr-east-03.cleardb.com
+// /heroku_9a60365cb76f207?reconnect=true
