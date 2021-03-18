@@ -68,7 +68,7 @@ app.post('/createusers', async (req, res) => {
   const users = database.allUsers()
   try{
   const hashedPassword = await bcrypt.hash(req.body.password, 10) //the 10 is to salt the hash to increase security
-  const newUser = {username: req.body.username, email: req.body.email, password: hashedPassword }
+  const newUser = {username: req.body.username, email: req.body.email,level: req.body.level, password: hashedPassword }
   users.push(newUser)
   res.status(201).send()
   }catch{
