@@ -15,6 +15,12 @@ let users = [
     password: "",
     level: "Beginner",
   },
+  {
+    username: 'abc',
+    email: 'abc',
+    level: 'Intermediate',
+    password: '$2b$10$LpRORneMhsPIvi2OdBPPI..0H2lR.SzOcBdLauOCFmdMBaFlEmQfW'
+  }
 ]
 
 function allPosts() {

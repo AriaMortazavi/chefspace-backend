@@ -73,12 +73,13 @@ app.get('/users', (req, res) => {
 })
 
 //Creating new user
-app.post('/createusers', async (req, res) => {
+app.post('https://chefspace-backend.herokuapp.com/api/createusers', async (req, res) => {
   const users = database.allUsers()
   try{
   const hashedPassword = await bcrypt.hash(req.body.password, 10) //the 10 is to salt the hash to increase security
   const newUser = {username: req.body.username, email: req.body.email,level: req.body.level, password: hashedPassword }
   users.push(newUser)
+  console.log(newUser, users)
   res.status(201).send()
   }catch{
     res.status(500).send()
@@ -86,25 +87,27 @@ app.post('/createusers', async (req, res) => {
 })
 
 //login
-app.post('/createusers/login', async (req, res) => {
+app.post('https://chefspace-backend.herokuapp.com/login', async (req, res) => {
   const users = database.allUsers()
-  const createusers = users.find(newUser => newUser.email = req.body.email)
-  const user = { email: email}
+  console.log(users)
+  const user = users.find(newUser => newUser.email === req.body.email)
+  // const user = { email: email}
   if (user == null){
     return res.status(400).send('Cannot find user')
   }
   try{
      //bcrypt compares password to hashed password
-   if(await bcrypt.compare(req.body.password, newUser.password)){
+     console.log(req.body.password, user.password, user)
+   if(await bcrypt.compare(req.body.password, user.password)){
      
-     const accesssToken = jwt.sign(user, proocess.env.ACCESS_TOKEN_SECRET)
-     res.json({ accesssToken: accesssToken })
+     const accesssToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
+     res.send({ accesssToken: accesssToken })
 
-    res.send('Sucess')
    } else {
-     res.send ('Not allowed')
+     res.status(400).send ({error: 'Not allowed'})
    }
-  } catch {
+  } catch (error) {
+    console.log(error)
     res.status(500).send()
   }
 })
