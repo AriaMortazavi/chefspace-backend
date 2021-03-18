@@ -4,6 +4,10 @@ const database = require('./database.js')
 
 const app = express()
 
+const jwt = require('jsonwebtoken')
+
+app.use(express.json())
+
 const bcrypt = require('bcrypt')
 // using bcrypt for hashing password
 
@@ -56,7 +60,9 @@ app.post('/api/createposts', (req, res) => {
 
 
 
+
 //login and signup
+//getting users
 app.get('/users', (req, res) => {
   const users = database.allUsers()
   res.json(
@@ -64,6 +70,7 @@ app.get('/users', (req, res) => {
   )
 })
 
+//Creating new user
 app.post('/createusers', async (req, res) => {
   const users = database.allUsers()
   try{
@@ -76,15 +83,16 @@ app.post('/createusers', async (req, res) => {
   }
 })
 
+//login
 app.post('/createusers/login', async (req, res) => {
   const users = database.allUsers()
-  const createusers = users.find(user => user.email = reeq.body.email)
+  const createusers = users.find(newUser => newUser.email = req.body.email)
   if (user == null){
     return res.status(400).send('Cannot find user')
   }
   try{
      //bcrypt compares password to hashed password
-   if(await bcrypt.compare(req.body.password, user.password)){
+   if(await bcrypt.compare(req.body.password, newUser.password)){
     res.send('Sucess')
    } else {
      res.send ('Not allowed')
