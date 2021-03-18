@@ -8,14 +8,22 @@ const app = express()
 
 const jwt = require('jsonwebtoken')
 
-// var mysql = require('mysql');
+var mysql = require('mysql');
 
-// var connect = mysql.createConnection({
-//   host='',
-//   user='',
-//   password='',
-//   database='',
-// })
+const db = mysql.createConnection({
+  host='us-cdbr-east-03.cleardb.com',
+  user='bb491c74803cee',
+  password='261b5a80',
+  database='heroku_9a60365cb76f207',
+})
+
+db.connect( (error) => {
+  if (error){
+    console.log(error)
+  } else {
+    console.log("MY SQL CONNECTED....")
+  }
+})
 
 app.use(express.json())
 
@@ -148,4 +156,5 @@ function authenticateToken (req, res, next){
 // 261b5a80
 // @
 // us-cdbr-east-03.cleardb.com
-// /heroku_9a60365cb76f207?reconnect=true
+// /heroku_9a60365cb76f207
+// ?reconnect=true
