@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const express = require('express')
 
 const database = require('./database.js')
@@ -87,12 +89,17 @@ app.post('/createusers', async (req, res) => {
 app.post('/createusers/login', async (req, res) => {
   const users = database.allUsers()
   const createusers = users.find(newUser => newUser.email = req.body.email)
+  const user = { email: email}
   if (user == null){
     return res.status(400).send('Cannot find user')
   }
   try{
      //bcrypt compares password to hashed password
    if(await bcrypt.compare(req.body.password, newUser.password)){
+     
+     const accesssToken = jwt.sign(user, proocess.env.ACCESS_TOKEN_SECRET)
+     res.json({ accesssToken: accesssToken })
+
     res.send('Sucess')
    } else {
      res.send ('Not allowed')
@@ -103,15 +110,20 @@ app.post('/createusers/login', async (req, res) => {
 })
 
 
-
-//Token authorization
-app.use(async(req) => {
-  try{
-  const token = req.headers.authorization
-  req.token = token;
-  return req.next()
-  } catch (e) {
-    console.log (e.message)
-    return req.next()
-  }
+app.get('/users', authenticateToken, (req, res) => {
+  res.json(post.filter(users => users.email === req.user.email))
 })
+
+
+function authenticateToken (req, res, next){
+  const authHeader = req.headers['authorization']
+  const token =authHeader && authHeader.split(' ')[1]
+  if (token == null) return res.sendStatus(401)
+
+  jwt.verify(token, process.enx.ACCESS_TOKEN_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403)
+    req.user = user
+    next()
+  })
+}
+
