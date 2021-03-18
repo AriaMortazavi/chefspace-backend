@@ -93,3 +93,17 @@ app.post('/createusers/login', async (req, res) => {
     res.status(500).send()
   }
 })
+
+
+
+//Token authorization
+app.use(async(req) => {
+  try{
+  const token = req.headers.authorization
+  req.token = token;
+  return req.next()
+  } catch (e) {
+    console.log (e.message)
+    return req.next()
+  }
+})
