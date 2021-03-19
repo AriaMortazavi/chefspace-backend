@@ -49,7 +49,7 @@ app.post('/users/login', (req, res) => {
 })
 
  //getting users by their id
- app.get('/api/users/:id', (req, res) => {
+ app.get('/users/:id', (req, res) => {
   const id = req.params.id 
   db.userIdentification(id, (result) => {
     res.send({result})
@@ -57,7 +57,7 @@ app.post('/users/login', (req, res) => {
 })
 
  //getting users
-app.get('/api/users', (req, res) => {
+app.get('/users', (req, res) => {
     db.allUsers((result) => {
     res.send({result})
   })
