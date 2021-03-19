@@ -7,21 +7,32 @@ let posting = [
     postDislike: 1,
   },
 ]
-let users = [
-  {
-    id: 1,
-    username: "AriaMor",
-    email: "ariamor7@gmail.com",
-    password: "",
-    level: "Beginner",
-  },
-  {
-    username: 'abc',
-    email: 'abc',
-    level: 'Intermediate',
-    password: '$2b$10$LpRORneMhsPIvi2OdBPPI..0H2lR.SzOcBdLauOCFmdMBaFlEmQfW'
+require('dotenv').config()
+
+const express = require('express')
+
+const database = require('./database.js')
+
+const app = express()
+
+const jwt = require('jsonwebtoken')
+
+var mysql = require('mysql');
+
+const db = mysql.createConnection({
+  host='us-cdbr-east-03.cleardb.com',
+  user='bb491c74803cee',
+  password='261b5a80',
+  database='heroku_9a60365cb76f207',
+})
+
+db.connect( (error) => {
+  if (error){
+    console.log(error)
+  } else {
+    console.log("MY SQL CONNECTED....")
   }
-]
+})
 
 function allPosts() {
   return posting
@@ -39,7 +50,7 @@ exports.createPost = createPost
 
 
 function allUsers() {
-  return users
+  return db
 }
 exports.allUsers = allUsers
 

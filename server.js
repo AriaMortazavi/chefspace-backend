@@ -83,7 +83,7 @@ app.post('/api/createposts', (req, res) => {
 //login and signup
 //getting users
 app.get('/users', (req, res) => {
-  const users = database.allUsers()
+  const users = db.allUsers()
   res.json(
     users
   )
