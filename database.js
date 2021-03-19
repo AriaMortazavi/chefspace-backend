@@ -96,4 +96,17 @@ function userIdentification (callback){
     })
   }
 
+
+function userIdentification(req, res ,next ,id) {
+  const query = `
+    SELECT id
+    FROM users
+  `
+    connection.query(query, (error, result) => {
+        callback(error, result)
+    })
+      if(!id.match(/^[0-9a-fA-F]{24}$/))
+        return res.status(400).send("invalid ID");
+  }
+
 exports.userIdentification = userIdentification
