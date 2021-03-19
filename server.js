@@ -98,7 +98,7 @@ app.post('https://chefspace-backend.herokuapp.com/api/createusers', async (req, 
   console.log(newUser, users)
 
     await db.query(`
-      INSERT INTO user(
+      INSERT INTO users(
         username,
         email,
         password,
