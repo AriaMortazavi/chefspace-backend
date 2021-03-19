@@ -18,7 +18,8 @@ const db = {
 
   const connection = mysql.createConnection(db)
 
-  function createUser (username, email, password, level, callback){`
+  function createUser (username, email, password, level, callback){
+    const query = `
       INSERT INTO users (username, email, password, level) VALUES (?, ?, ?, ?)
       `
 
@@ -27,7 +28,7 @@ const db = {
         callback(error)
         return
       }
-    const params = [username, hashed, email, level]
+    const params = [username, email, hashed, level]
 
     connection.query(query, params, function (error, result, fields) {
       callback(error, result.insertId)

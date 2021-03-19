@@ -4,7 +4,7 @@ const seceretToken = process.env.ACCESS_TOKEN_SECRET || '0635edc4111760efd96b1a5
 
 function createToken(data){
     const accesssToken = jwt.sign(data, seceretToken, {expiresIn: "1h"})
-     return token
+     return accesssToken
 }
 
 exports.createToken = createToken

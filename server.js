@@ -3,7 +3,7 @@ const express = require('express')
 const db = require('./database.js')
 const app = express()
 const jwt = require('./jwt')
-app.use(express.json())
+
 
 app.use('/', function (req, res, next) {
   //var allowedOrigins = ['http://localhost:3000'];
@@ -22,11 +22,12 @@ app.use('/', function (req, res, next) {
   next();
 });
 
+app.use(express.json())
 
 //creating a new account in sign up
-app.post('api/users', (req, res) => {
-  const {username, email, password } = req.body
-  db.createUser(username, email, password, (error, userId) => {
+app.post('/api/users', (req, res) => {
+  const {username, email, password, level } = req.body
+  db.createUser(username, email, password, level, (error, userId) => {
     if (error){
       res.send({error: error.message})
       return
@@ -37,7 +38,7 @@ app.post('api/users', (req, res) => {
 
 
 //Login
-app.post('api/users/login', (req, res) => {
+app.post('/api/users/login', (req, res) => {
   const {username, email, password } = req.body
   db.getUser(email, password, (error, user) => {
     if (error){
@@ -50,7 +51,7 @@ app.post('api/users/login', (req, res) => {
 })
 
  //getting users by their id
- app.get('api/users/:id', (req, res) => {
+ app.get('/api/users/:id', (req, res) => {
   const id = req.params.id 
   db.userIdentification(id, (result) => {
     res.send({result})
@@ -58,7 +59,7 @@ app.post('api/users/login', (req, res) => {
 })
 
  //getting users
-app.get('api/users', (req, res) => {
+app.get('/api/users', (req, res) => {
     db.allUsers((result) => {
     res.send({result})
   })
