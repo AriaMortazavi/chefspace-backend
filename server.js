@@ -22,6 +22,7 @@ app.use('/', function (req, res, next) {
   next();
 });
 
+
 //creating a new account in sign up
 app.post('api/users', (req, res) => {
   const {username, email, password } = req.body
@@ -63,6 +64,10 @@ app.get('api/users', (req, res) => {
   })
 })
 
+const port = process.env.PORT || 8080
+app.listen(port, () => {
+  console.log(`listening on port ${port}`)
+})
 
 
 
@@ -113,10 +118,7 @@ app.get('api/users', (req, res) => {
 //   )
 // })
 
-// const port = process.env.PORT || 8080
-// app.listen(port, () => {
-//   console.log(`listening on port ${port}`)
-// })
+
 
 // app.post('/api/createposts', (req, res) => {
 //   const recipe = req.body
