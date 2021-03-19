@@ -96,7 +96,27 @@ app.post('https://chefspace-backend.herokuapp.com/api/createusers', async (req, 
   const newUser = {username: req.body.username, email: req.body.email,level: req.body.level, password: hashedPassword }
   users.push(newUser)
   console.log(newUser, users)
-  res.status(201).send()
+
+    await db.query(`
+      INSERT INTO user(
+        username,
+        email,
+        password,
+        level
+      ) VALUES (
+        @username,
+        @email,
+        @password,
+        @level
+      )
+      `,{
+        username: req.body.username,
+        password: hashedPassword,
+        email: req.body.email,
+        level: req.body.level
+      }
+    );
+        res.status(201).send()
   }catch{
     res.status(500).send()
   }
@@ -106,11 +126,22 @@ app.post('https://chefspace-backend.herokuapp.com/api/createusers', async (req, 
 app.post('https://chefspace-backend.herokuapp.com/login', async (req, res) => {
   console.log(users)
   const user = users.find(newUser => newUser.email === req.body.email)
-  // const user = { email: email}
   if (user == null){
     return res.status(400).send('Cannot find user')
   }
   try{
+    const user = await db.query(`
+      SELECT
+        *
+      FROM user
+      WHERE
+      email = @email
+      AND password = @password
+    `,{
+      username: req.body.username,
+      password: req.body.password,
+    }
+    )
      //bcrypt compares password to hashed password
      console.log(req.body.password, user.password, user)
    if(await bcrypt.compare(req.body.password, user.password)){
