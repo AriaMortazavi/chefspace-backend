@@ -23,7 +23,7 @@ app.use('/', function (req, res, next) {
 });
 
 //creating a new account in sign up
-app.post('api/users', (req, res) => {
+app.post('/users', (req, res) => {
   const {username, email, password } = req.body
   db.createUser(username, email, password, (error, userId) => {
     if (error){
@@ -36,7 +36,7 @@ app.post('api/users', (req, res) => {
 
 
 //Login
-app.post('api/users/login', (req, res) => {
+app.post('/users/login', (req, res) => {
   const {username, email, password } = req.body
   db.getUser(email, password, (error, user) => {
     if (error){
