@@ -10,10 +10,10 @@ const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
 
 const db = {
-    host='us-cdbr-east-03.cleardb.com',
-    user='bb491c74803cee',
-    password='261b5a80',
-    database='heroku_9a60365cb76f207',
+    host:'us-cdbr-east-03.cleardb.com',
+    user:'bb491c74803cee',
+    password:'261b5a80',
+    database:'heroku_9a60365cb76f207',
   }
 
   const connection = mysql.createConnection(db)
