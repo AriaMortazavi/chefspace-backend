@@ -50,7 +50,7 @@ function getUser (email, password, callback){
 
     connection.query(query, params, (error, results) => {
       if (!results || results.length===0){
-        callback(Error("Good Email"))
+        callback(Error("Wrong Log in"))
         return
     }
 
@@ -80,7 +80,8 @@ function allUsers (callback){
     FROM users
   `
     connection.query(query, (error, result) => {
-        callback(error, result)
+      console.log(result)
+      callback(error, result)   
     })
   }
 

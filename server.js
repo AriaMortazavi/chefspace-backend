@@ -15,7 +15,7 @@ app.use('/', function (req, res, next) {
   // Request methods you wish to allow
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
   // Request headers you wish to allow
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
   // Set to true if you need the website to include cookies in the requests sent
   // to the API (e.g. in case you use sessions)
   res.setHeader('Access-Control-Allow-Credentials', true);
@@ -42,7 +42,7 @@ app.post('/users/login', (req, res) => {
   const {username, email, password } = req.body
   db.getUser(email, password, (error, user) => {
     if (error){
-      res.send({error})
+      res.send("Wrong Log in")
       return
     }
     const accesssToken = jwt.createToken({userId: user.id, username: user.username, email: user.email })
@@ -53,14 +53,14 @@ app.post('/users/login', (req, res) => {
  //getting users by their id
  app.get('/users/:id', (req, res) => {
   const id = req.params.id 
-  db.userIdentification(id, (result) => {
+  db.userIdentification(id, (error, result) => {
     res.send({result})
   })
 })
 
  //getting users
 app.get('/users', (req, res) => {
-    db.allUsers((result) => {
+    db.allUsers((error, result) => {
     res.send({result})
   })
 })
