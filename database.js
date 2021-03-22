@@ -16,20 +16,6 @@ const db = {
     database:'heroku_9a60365cb76f207',
   }
 
-  //var connection = mysql.createConnection(db);
-
-  /*function HandleConnection(connection){
-
-  }
-
-  connection.on('error', (err)=>{
-    if(err.code === 'PROTOCOL_CONNECTION_LOST'){
-      console.log("reconnect");
-      connection = mysql.createConnection(db);
-    } else {
-      throw err;
-    }
-  })*/
 
   function createUser (username, email, password, level, callback){
     var connection = mysql.createConnection(db);
