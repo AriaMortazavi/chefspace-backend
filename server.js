@@ -46,7 +46,7 @@ app.post('/users/login', (req, res) => {
       return
     }
     const accesssToken = jwt.createToken({userId: user.id, username: user.username, email: user.email })
-    res.send({ accesssToken })
+    res.send({ accesssToken, username, email, })
   })
 })
 
