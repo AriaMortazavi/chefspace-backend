@@ -16,9 +16,23 @@ const db = {
     database:'heroku_9a60365cb76f207',
   }
 
-  const connection = mysql.createConnection(db)
+  //var connection = mysql.createConnection(db);
+
+  /*function HandleConnection(connection){
+
+  }
+
+  connection.on('error', (err)=>{
+    if(err.code === 'PROTOCOL_CONNECTION_LOST'){
+      console.log("reconnect");
+      connection = mysql.createConnection(db);
+    } else {
+      throw err;
+    }
+  })*/
 
   function createUser (username, email, password, level, callback){
+    var connection = mysql.createConnection(db);
     const query = `
       INSERT INTO users (username, email, password, level) VALUES (?, ?, ?, ?)
       `
@@ -31,6 +45,7 @@ const db = {
     const params = [username, email, hashed, level]
 
     connection.query(query, params, function (error, result, fields) {
+      connection.destroy()
       callback(error, result.insertId)
       console.log(error, result)
     })
@@ -41,6 +56,7 @@ exports.createUser = createUser
 
 
 function getUser (email, password, callback){
+  var connection = mysql.createConnection(db);
   const query = `
     SELECT id, username, email, password, level
     FROM users
@@ -49,6 +65,8 @@ function getUser (email, password, callback){
     const params = [email]
 
     connection.query(query, params, (error, results) => {
+      connection.destroy()
+
       if (!results || results.length===0){
         callback(Error("Wrong Log in"))
         return
@@ -75,11 +93,13 @@ function getUser (email, password, callback){
 exports.getUser = getUser
 
 function allUsers (callback){
+  var connection = mysql.createConnection(db);
   const query = `
     SELECT *
     FROM users
   `
     connection.query(query, (error, result) => {
+      connection.destroy()
       console.log(result)
       callback(error, result)   
     })
@@ -89,22 +109,26 @@ exports.allUsers = allUsers
 
 
 function userIdentification (callback){
+  var connection = mysql.createConnection(db);
   const query = `
     SELECT *
     FROM users
   `
     connection.query(query, (error, result) => {
+      connection.destroy()
         callback(error, result)
     })
   }
 
 
 function userIdentification(req, res ,next ,id) {
+  var connection = mysql.createConnection(db);
   const query = `
     SELECT id
     FROM users
   `
     connection.query(query, (error, result) => {
+      connection.destroy()
         callback(error, result)
     })
       if(!id.match(/^[0-9a-fA-F]{24}$/))
