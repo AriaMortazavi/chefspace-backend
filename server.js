@@ -25,7 +25,7 @@ app.use('/', function (req, res, next) {
 app.use(express.json())
 
 //creating a new account in sign up
-app.post('/api/users', (req, res) => {
+app.post('/users', (req, res) => {
   const {username, email, password, level } = req.body
   db.createUser(username, email, password, level, (error, userId) => {
     if (error){
@@ -38,7 +38,7 @@ app.post('/api/users', (req, res) => {
 
 
 //Login
-app.post('/api/users/login', (req, res) => {
+app.post('/users/login', (req, res) => {
   const {username, email, password } = req.body
   db.getUser(email, password, (error, user) => {
     if (error){
@@ -51,7 +51,7 @@ app.post('/api/users/login', (req, res) => {
 })
 
  //getting users by their id
- app.get('/api/users/:id', (req, res) => {
+ app.get('/users/:id', (req, res) => {
   const id = req.params.id 
   db.userIdentification(id, (result) => {
     res.send({result})
@@ -59,7 +59,7 @@ app.post('/api/users/login', (req, res) => {
 })
 
  //getting users
-app.get('/api/users', (req, res) => {
+app.get('/users', (req, res) => {
     db.allUsers((result) => {
     res.send({result})
   })
