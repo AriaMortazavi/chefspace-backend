@@ -35,7 +35,7 @@ const db = {
     var connection = mysql.createConnection(db);
     const query = `
       INSERT INTO users (username, email, password, level) VALUES (?, ?, ?, ?)
-      `
+      ` 
 
     bcrypt.hash(password, 12, (error, hashed) => {
       if (error){
