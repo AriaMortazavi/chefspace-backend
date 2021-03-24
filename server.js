@@ -65,6 +65,18 @@ app.get('/users', (req, res) => {
   })
 })
 
+ //change user info
+ app.post('/users', (req, res) => {
+  const {username, email, level } = req.body
+  db.changeUserInfo(username, email, level, (error, userId) => {
+    if (error){
+      res.send({error: error.message})
+      return
+    }
+    res.send({userId, username, email, level })
+  })
+})
+
 const port = process.env.PORT || 8080
 app.listen(port, () => {
   console.log(`listening on port ${port}`)
