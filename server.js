@@ -7,7 +7,6 @@ const jwt = require('./jwt')
 const fs = require('fs');
 const multer = require('multer');
 const upload = multer({dest: 'uploads/'});
-const app = express();
 
 
 app.use('/', function (req, res, next) {

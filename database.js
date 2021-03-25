@@ -126,7 +126,6 @@ function changeUserInfo (callback){
     })
   }
 
-<<<<<<< HEAD
   // Create new post
   function createPost (postId, description, image, likes, dislikes, callback){
     var connection = mysql.createConnection(db);
@@ -139,7 +138,7 @@ function changeUserInfo (callback){
       callback(error, result.insertId)
       console.log(error, result)
     })
-  })
+  }
 
   exports.createPost = createPost
 
@@ -176,9 +175,4 @@ function changeUserInfo (callback){
   // exports.allUsers = allUsers
 
 
-}
-
 exports.userIdentification = userIdentification
-=======
-exports.changeUserInfo = changeUserInfo
->>>>>>> 5ac2b8069d69494d2a5a3331219950d913c6da4c
