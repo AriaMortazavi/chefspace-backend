@@ -44,14 +44,14 @@ app.post('/users', (req, res) => {
 
 //Login
 app.post('/users/login', (req, res) => {
-  const {username, email, password } = req.body
+  const {username, email, password, level } = req.body
   db.getUser(email, password, (error, user) => {
     if (error){
       res.send("Wrong Log in")
       return
     }
-    const accesssToken = jwt.createToken({userId: user.id, username: user.username, email: user.email })
-    res.send({ accesssToken, username, email, })
+    const accesssToken = jwt.createToken({userId: user.id, username: user.username, email: user.email, level: user.level })
+    res.send({ accesssToken, username, email, level})
   })
 })
 

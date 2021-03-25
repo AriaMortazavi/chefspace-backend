@@ -94,33 +94,39 @@ function allUsers (callback){
 exports.allUsers = allUsers
 
 
-function userIdentification (callback){
-  var connection = mysql.createConnection(db);
-  const query = `
-    SELECT *
-    FROM users
-  `
-    connection.query(query, (error, result) => {
-      connection.destroy()
-        callback(error, result)
-    })
-  }
-
-
 function userIdentification(req, res ,next ,id) {
   var connection = mysql.createConnection(db);
   const query = `
-    SELECT id
-    FROM users
+    SELECT *
+    FROM users 
   `
+  const params = [id]
+
     connection.query(query, (error, result) => {
       connection.destroy()
         callback(error, result)
     })
-      if(!id.match(/^[0-9a-fA-F]{24}$/))
-        return res.status(400).send("invalid ID");
   }
 
+exports.userIdentification = userIdentification
+
+
+function changeUserInfo (callback){
+  var connection = mysql.createConnection(db);
+  const query = `
+  UPDATE users SET username = ?, email = ?, level = ? WHERE id = ?
+  `
+
+  const params = [username, email, level]
+
+    connection.query(query, params, (error, result) => {
+      connection.destroy()
+      console.log(result)
+      callback(error, result)   
+    })
+  }
+
+<<<<<<< HEAD
   // Create new post
   function createPost (postId, description, image, likes, dislikes, callback){
     var connection = mysql.createConnection(db);
@@ -173,3 +179,6 @@ function userIdentification(req, res ,next ,id) {
 }
 
 exports.userIdentification = userIdentification
+=======
+exports.changeUserInfo = changeUserInfo
+>>>>>>> 5ac2b8069d69494d2a5a3331219950d913c6da4c
