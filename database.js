@@ -18,7 +18,7 @@ const db = {
 
 
   function createUser (username, email, password, level, callback){
-    var connection = mysql.createConnection(db);
+    var connection = mysql.createConnection(db); // **
     const query = `
       INSERT INTO users (username, email, password, level) VALUES (?, ?, ?, ?)
       ` 
@@ -31,7 +31,7 @@ const db = {
     const params = [username, email, hashed, level]
 
     connection.query(query, params, function (error, result, fields) {
-      connection.destroy()
+      connection.destroy() // **
       callback(error, result.insertId)
       console.log(error, result)
     })
@@ -120,5 +120,56 @@ function userIdentification(req, res ,next ,id) {
       if(!id.match(/^[0-9a-fA-F]{24}$/))
         return res.status(400).send("invalid ID");
   }
+
+  // Create new post
+  function createPost (postId, description, image, likes, dislikes, callback){
+    var connection = mysql.createConnection(db);
+    const query = `
+      INSERT INTO posts (postId, description, image, likes, dislikes) VALUES (?, ?, ?)
+      ` 
+
+    connection.query(query, params, function (error, result, fields) {
+      connection.destroy()
+      callback(error, result.insertId)
+      console.log(error, result)
+    })
+  })
+
+  exports.createPost = createPost
+
+  // Get all posts
+  function getPosts (postId, description, image, likes, dislikes, callback){
+    var connection = mysql.createConnection(db);
+    const query = `
+      SELECT *
+      FROM posts
+    `
+
+    connection.query(query, (error, result) => {
+            connection.destroy()
+            console.log(result)
+            callback(error, result)   
+          })
+  }
+
+  exports.getPosts = getPosts
+
+  // function allUsers (callback){
+  //   var connection = mysql.createConnection(db);
+  //   const query = `
+  //     SELECT *
+  //     FROM users
+  //   `
+  //     connection.query(query, (error, result) => {
+  //       connection.destroy()
+  //       console.log(result)
+  //       callback(error, result)   
+  //     })
+  //   }
+  
+  // exports.allUsers = allUsers
+
+
+}
 
 exports.userIdentification = userIdentification

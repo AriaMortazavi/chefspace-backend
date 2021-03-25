@@ -4,6 +4,11 @@ const db = require('./database.js')
 const app = express()
 const jwt = require('./jwt')
 
+const fs = require('fs');
+const multer = require('multer');
+const upload = multer({dest: 'uploads/'});
+const app = express();
+
 
 app.use('/', function (req, res, next) {
   //var allowedOrigins = ['http://localhost:3000'];
@@ -65,10 +70,54 @@ app.get('/users', (req, res) => {
   })
 })
 
+// IMAGE UPLOAD
+app.get('/images/:imageName', (req, res) => {
+  const imageName = req.params.imageName
+  const readStream = fs.createReadStream(`images/${imageName}`)
+  readStream.pipe(res)
+})
+
+app.post('/images', upload.single('image'), (req, res) => {
+  const imagePath = req.file.path
+  const description = req.body.description
+
+  console.log(description, imagePath)
+  res.send({description, imagePath})
+})
+
+/**
+Old Code
+
+// upload image
+app.post('/images', upload.single(image), (req, res) => {
+  const file = req.file;
+  console.log(file);
+  const description = req.body.description;
+  res.send("hi");
+})
+
+// create posts
+app.post('/posts', (req, res) => {
+  const {postId, description, image, likes, dislikes} = req.body
+  db.createPost(postId, description, image => {
+    res.send({id: postId, description, image})
+  })
+})
+
+*/
+
+// get all posts
+app.get('/posts/all', (req, res) => {
+  db.getPosts((result) => {
+    res.send({result})
+  })
+})
+
 const port = process.env.PORT || 8080
 app.listen(port, () => {
   console.log(`listening on port ${port}`)
 })
+
 
 
 
